@@ -1,5 +1,6 @@
-import gbcall
+from gbcall import defineExpose
 
 
-def add(x, y):  # @gbcall-expose
-    return x+y
+@defineExpose(input=[str, int], output=str)
+def p(a, b):
+    return a+b
