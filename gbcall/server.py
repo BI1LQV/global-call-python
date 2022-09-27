@@ -1,3 +1,4 @@
+import os
 from aiohttp import web
 from settings import DEFAULT_PORT
 
@@ -15,8 +16,12 @@ async def handshake(_request):
 
 
 async def register(request):
-    print(request.get("filePath"))
-    return web.Response(text="aa")
+    file = request.rel_url.query['filePath']
+    base = request.rel_url.query['workingPath']
+    with open(os.path.join(base, file), 'r') as source:
+        return web.Response(text=source.read())
+
+
 app = web.Application()
 app.add_routes([
     web.get('/isAlive', handshake),
@@ -25,4 +30,5 @@ app.add_routes([
 ])
 
 if __name__ == '__main__':
-    web.run_app(app, port=DEFAULT_PORT, print=())
+    print(f"python_server on: http://localhost:{DEFAULT_PORT}")
+    web.run_app(app, port=DEFAULT_PORT, print=None)

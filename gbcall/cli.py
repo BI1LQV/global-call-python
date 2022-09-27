@@ -1,8 +1,10 @@
 #! python3
 import argparse
+import os
 from aiohttp import ClientSession
 import asyncio
 from settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
+import urllib.parse
 
 
 def prompt():
@@ -24,14 +26,22 @@ def prompt():
 
     async def main():
         async with ClientSession() as session:
-            async with session.get(targetServer+'/isAlive') as resp:
-                if resp.status == 200 and await resp.text() == ALIVE_SYMBOL["python"]:
-                    for fileName in files:
-                        async with session.get(targetServer+f'/register?filePath={fileName}') as resp:
-                            t = await resp.text()
-                            print(t)
-                else:
-                    print('fff')
+            try:
+                async with session.get(targetServer+'/isAlive') as resp:
+                    if (resp.status == 200 and
+                            await resp.text() == ALIVE_SYMBOL["python"]):
+                        for fileName in files:
+                            params = urllib.parse.urlencode({
+                                "filePath": fileName,
+                                "workingPath": os.getcwd()
+                            })
+                            async with session.get(
+                                f'{targetServer}/register?{params}'
+                            ) as resp:
+                                t = await resp.text()
+                                print(t)
+            except:
+                pass
 
             print('enddd')
 
