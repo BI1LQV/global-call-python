@@ -36,7 +36,7 @@ def prompt():
                                 "workingPath": os.getcwd()
                             })
                             async with session.get(
-                                f'{targetServer}/register?{params}'
+                                f'{targetServer}/funcRegister?{params}'
                             ) as resp:
                                 t = await resp.text()
                                 print(t)
