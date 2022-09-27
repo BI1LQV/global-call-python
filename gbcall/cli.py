@@ -1,11 +1,13 @@
 #! python3
 import argparse
+from aiohttp import ClientSession
+import asyncio
+from settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
 
 
 def prompt():
     parser = argparse.ArgumentParser(
-        description="A simple serverless function transformer,\
-        and a simple way to call function in other language.")
+        description=DESCRIPTION)
 
     parser.add_argument("filePath",
                         nargs='*', metavar="file_Pame", type=str,
@@ -15,4 +17,25 @@ def prompt():
 
     if not args.filePath:
         print("No file path provided")
-    print(args.filePath)
+        return
+    files = args.filePath
+
+    targetServer = f'http://localhost:{DEFAULT_PORT}'
+
+    async def main():
+        async with ClientSession() as session:
+            async with session.get(targetServer+'/isAlive') as resp:
+                if resp.status == 200 and await resp.text() == ALIVE_SYMBOL["python"]:
+                    for fileName in files:
+                        async with session.get(targetServer+f'/register?filePath={fileName}') as resp:
+                            t = await resp.text()
+                            print(t)
+                else:
+                    print('fff')
+
+            print('enddd')
+
+    asyncio.run(main())
+
+
+prompt()
