@@ -1,8 +1,17 @@
 import os
 from aiohttp import web
-from settings import DEFAULT_PORT
+from settings import DEFAULT_PORT, ALIVE_SYMBOL
+import importlib.util
+import sys
 
-from settings import ALIVE_SYMBOL
+
+def dynamicImport(path):
+    spec = importlib.util.spec_from_file_location(
+        path, path)
+    foo = importlib.util.module_from_spec(spec)
+    sys.modules[path] = foo
+    spec.loader.exec_module(foo)
+    return foo
 
 
 async def handle(request):
@@ -18,8 +27,12 @@ async def handshake(_request):
 async def register(request):
     file = request.rel_url.query['filePath']
     base = request.rel_url.query['workingPath']
+    # source = __import__(os.path.join(base, file))
+
+    module = dynamicImport(os.path.join(base, file))
     with open(os.path.join(base, file), 'r') as source:
-        return web.Response(text=source.read())
+        code = source.read()
+    return web.Response(text=source.read())
 
 
 app = web.Application()
