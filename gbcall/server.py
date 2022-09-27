@@ -1,7 +1,7 @@
-import json
 import os
 from aiohttp import web
-from utils import mapAppend
+from utils import scanner
+# from utils import mapAppend
 from settings import OK_STATUS
 from settings import DEFAULT_PORT, ALIVE_SYMBOL
 import importlib.util
@@ -9,8 +9,8 @@ import sys
 
 infoCache = {}
 moduleCache = {}
-
-bindingCache = {}
+funcCache = {}
+# bindingCache = {}
 
 
 def dynamicImport(path):
@@ -39,8 +39,9 @@ async def funcRegister(request):
     absPath = os.path.join(base, file)
     module = dynamicImport(absPath)
     with open(os.path.join(base, file), 'r') as source:
-        code = source.read()
-
+        funcName, input, output = scanner(source.read())
+        funcCache[funcName] = module[funcName]
+        infoCache[funcName] = {"input": input, "output": output}
     return web.Response(text=OK_STATUS)
 
 
@@ -57,11 +58,21 @@ async def funcRegister(request):
 
 #     return web.Response(text=OK_STATUS)
 
+def callFunc():
+    pass
+
+
+def getFuncInfo(request):
+    name = request.match_info.get('name')
+    return web.Response(text=name)
+
 
 app = web.Application()
 app.add_routes([
     web.get('/isAlive', handshake),
     web.get('/funcRegister', funcRegister),
+    web.get('/call/{funcName}', callFunc),
+    web.get('/info/{funcName}', getFuncInfo),
     # web.get('/infoRegister', infoRegister),
     web.get('/b/{name}', handle)
 ])
