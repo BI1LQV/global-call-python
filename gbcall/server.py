@@ -40,7 +40,7 @@ async def funcRegister(request):
     module = dynamicImport(absPath)
     with open(os.path.join(base, file), 'r') as source:
         funcName, input, output = scanner(source.read())
-        funcCache[funcName] = module[funcName]
+        funcCache[funcName] = getattr(module,funcName)
         infoCache[funcName] = {"input": input, "output": output}
     return web.Response(text=OK_STATUS)
 
