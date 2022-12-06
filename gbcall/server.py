@@ -6,6 +6,7 @@ from settings import OK_STATUS
 from settings import DEFAULT_PORT, ALIVE_SYMBOL
 import importlib.util
 import sys
+import json
 
 infoCache = {}
 moduleCache = {}
@@ -60,8 +61,9 @@ async def funcRegister(request):
 
 async def callFunc(request):
     data=await request.json()
-    res=funcCache[data["funcName"]](*data["args"])
-    return web.Response(text=str(res))
+    funcName = request.match_info.get('funcName', "Anonymous")
+    res=funcCache[funcName](*data["args"])
+    return web.Response(text=json.dumps({"res":res}))
 
 
 def getFuncInfo(request):
