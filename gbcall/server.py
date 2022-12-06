@@ -58,8 +58,10 @@ async def funcRegister(request):
 
 #     return web.Response(text=OK_STATUS)
 
-def callFunc():
-    pass
+async def callFunc(request):
+    data=await request.json()
+    res=funcCache[data["funcName"]](*data["args"])
+    return web.Response(text=str(res))
 
 
 def getFuncInfo(request):
@@ -71,7 +73,7 @@ app = web.Application()
 app.add_routes([
     web.get('/isAlive', handshake),
     web.get('/funcRegister', funcRegister),
-    web.get('/call/{funcName}', callFunc),
+    web.post('/call/{funcName}', callFunc),
     web.get('/info/{funcName}', getFuncInfo),
     # web.get('/infoRegister', infoRegister),
     web.get('/b/{name}', handle)
