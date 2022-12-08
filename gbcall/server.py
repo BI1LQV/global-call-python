@@ -63,7 +63,7 @@ async def callFunc(request):
     data=await request.json()
     funcName = request.match_info.get('funcName', "Anonymous")
     res=funcCache[funcName](*data["args"])
-    return web.Response(text=json.dumps({"res":res}))
+    return web.Response(text=json.dumps({"res":res}),headers={"Access-Control-Allow-Origin":"*"})
 
 
 def getFuncInfo(request):
