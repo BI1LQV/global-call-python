@@ -9,7 +9,7 @@ def scanner(code):
         "input=\[(.+)\]", re.S), IOStr).group(1).split(',')
     args = list(map(lambda s: s.strip(), args))
     ret = re.search(re.compile("output=(.+)", re.S), IOStr).group(1)
-    funcName = re.search(re.compile("(.+)\(.+\)", re.S), SignStr).group(1)
+    funcName = re.search(re.compile("(.+?)\(.+?\)", re.S), SignStr).group(1)
     return funcName, args, ret
 
 
