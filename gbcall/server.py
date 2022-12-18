@@ -2,11 +2,12 @@ import os
 from aiohttp import web
 from utils import scanner
 # from utils import mapAppend
-from settings import OK_STATUS
+# from settings import OK_STATUS
 from settings import DEFAULT_PORT, ALIVE_SYMBOL
 import importlib.util
 import sys
 import json
+from colorama import Fore
 
 infoCache = {}
 moduleCache = {}
@@ -43,7 +44,7 @@ async def funcRegister(request):
         funcName, input, output = scanner(source.read())
         funcCache[funcName] = getattr(module,funcName)
         infoCache[funcName] = {"input": input, "output": output}
-    return web.Response(text=OK_STATUS)
+    return web.Response(text=funcName)
 
 
 # def infoRegister(request):
@@ -82,5 +83,5 @@ app.add_routes([
 ])
 
 if __name__ == '__main__':
-    print(f"python_server on: http://localhost:{DEFAULT_PORT}")
+    print(f"python_server on: {Fore.RED}http://localhost:{DEFAULT_PORT}")
     web.run_app(app, port=DEFAULT_PORT, print=None)

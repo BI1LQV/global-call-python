@@ -5,6 +5,7 @@ from aiohttp import ClientSession
 import asyncio
 from settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
 import urllib.parse
+from colorama import Fore, Style
 
 
 def prompt():
@@ -38,12 +39,13 @@ def prompt():
                             async with session.get(
                                 f'{targetServer}/funcRegister?{params}'
                             ) as resp:
-                                t = await resp.text()
-                                print(t)
+                                funcName = await resp.text()
+                                print(f'{Fore.BLUE}{funcName}{Style.RESET_ALL} \
+                                registered on {Fore.RED}{targetServer}{Style.RESET_ALL}')
             except:
                 pass
 
-            print('enddd')
+            print('Done')
 
     asyncio.run(main())
 

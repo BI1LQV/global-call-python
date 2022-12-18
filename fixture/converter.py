@@ -1,9 +1,9 @@
 from gbcall import defineExpose
-@defineExpose(input=[int, int, int], output=str)
+@defineExpose(input=[int, int, int], output=[int, int, int])
 def rgb2hsv(r, g, b):
-  r/=255
-  g/=255
-  b/=255
+  r /= 255
+  g /= 255
+  b /= 255
   cMax = max(r, g, b)
   cMin = min(r, g, b)
   delta = cMax - cMin
@@ -24,4 +24,4 @@ def rgb2hsv(r, g, b):
   if h < 0:
     h += 360
 
-  return h,s*100,cMax*100
+  return h, s * 100, cMax * 100
