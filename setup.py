@@ -10,7 +10,6 @@ setup(
     packages=['gbcall'],
     # package_dir={"": "src"},
     zip_safe=False,
-    url="https://",
     author="bi1lqv",
     author_email="bi1lqy.y@gmail.com",
     license="MIT",
