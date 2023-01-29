@@ -1,9 +1,9 @@
 import os
 from aiohttp import web
-from utils import scanner
+from utils import scanner,returnJson
 # from utils import mapAppend
 # from settings import OK_STATUS
-from settings import DEFAULT_PORT, ALIVE_SYMBOL, LOAD_ERROR
+from settings import DEFAULT_PORT, ALIVE_SYMBOL
 import importlib.util
 import sys
 import json
@@ -42,12 +42,12 @@ async def funcRegister(request):
     try:
         module = dynamicImport(absPath)
     except:
-        return web.Response(text = LOAD_ERROR)
+        return returnJson(None,"no file or error in file")
     with open(os.path.join(base, file), 'r') as source:
         funcName, input, output = scanner(source.read())
         funcCache[funcName] = getattr(module,funcName)
         infoCache[funcName] = {"input": input, "output": output}
-    return web.Response(text=funcName)
+    return returnJson(funcName)
 
 
 # def infoRegister(request):
@@ -67,12 +67,14 @@ async def callFunc(request):
     data=await request.json()
     funcName = request.match_info.get('funcName', "Anonymous")
     res=funcCache[funcName](*data["args"])
-    return web.Response(text=json.dumps({"res":res}),headers={"Access-Control-Allow-Origin":"*"})
+    return returnJson(res)
 
 
 def getFuncInfo(request):
-    name = request.match_info.get('name')
-    return web.Response(text=name)
+    name = request.match_info.get('funcName')
+    return web.Response(text=json.dumps(
+        infoCache.get(name,{})
+    ),headers={"Access-Control-Allow-Origin":"*"})
 
 
 app = web.Application()

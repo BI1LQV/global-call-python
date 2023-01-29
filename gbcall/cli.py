@@ -4,7 +4,7 @@ import os
 from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientConnectorError
 import asyncio
-from settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL, LOAD_ERROR
+from settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
 import urllib.parse
 from colorama import Fore, Style
 import subprocess
@@ -44,11 +44,11 @@ def prompt():
                             async with session.get(
                                 f'{targetServer}/funcRegister?{params}'
                             ) as resp:
-                                funcName = await resp.text()
-                                if funcName == LOAD_ERROR:
-                                    print(f"{Fore.RED}模块路径或模块内部错误")
-                                    continue
-                                print(f'{Fore.BLUE}{funcName}{Style.RESET_ALL} registered on {Fore.RED}{targetServer}{Style.RESET_ALL}')
+                                funcName = await resp.json()
+                                if funcName['status'] == "ERR":
+                                    print(f"{Fore.RED}ERROR:{Style.RESET_ALL}{funcName['res']}")
+                                else:
+                                    print(f"{Fore.BLUE}{funcName['res']}{Style.RESET_ALL} registered on {Fore.RED}{targetServer}{Style.RESET_ALL}")
             except ClientConnectorError:
                 t=subprocess.Popen([sys.executable, os.path.split(os.path.realpath(__file__))[0]+'/server.py'],
                                     stdout=subprocess.PIPE,

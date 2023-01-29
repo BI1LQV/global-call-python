@@ -7,5 +7,3 @@ ALIVE_SYMBOL = {
 }
 
 OK_STATUS = "OK"
-
-LOAD_ERROR = "ERROR"
