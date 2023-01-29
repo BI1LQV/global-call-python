@@ -50,18 +50,6 @@ async def funcRegister(request):
     return returnJson(funcName)
 
 
-# def infoRegister(request):
-#     funcName = request.rel_url.query['funcName']
-#     fileAbsPath = request.rel_url.query['fileAbsPath']
-#     input = request.rel_url.query['input']
-#     output = request.rel_url.query['output']
-#     mapAppend(bindingCache, fileAbsPath, {
-#         "funcName": funcName,
-#         "input": json.loads(input),
-#         "output": json.loads(output)
-#     })
-
-#     return web.Response(text=OK_STATUS)
 
 async def callFunc(request):
     data=await request.json()
@@ -72,9 +60,10 @@ async def callFunc(request):
 
 def getFuncInfo(request):
     name = request.match_info.get('funcName')
-    return web.Response(text=json.dumps(
-        infoCache.get(name,{})
-    ),headers={"Access-Control-Allow-Origin":"*"})
+    try:
+        return returnJson(infoCache[name])
+    except:
+        return returnJson(None,"no such func")
 
 
 app = web.Application()
@@ -83,7 +72,6 @@ app.add_routes([
     web.get('/funcRegister', funcRegister),
     web.post('/call/{funcName}', callFunc),
     web.get('/info/{funcName}', getFuncInfo),
-    # web.get('/infoRegister', infoRegister),
     web.get('/b/{name}', handle)
 ])
 
