@@ -3,7 +3,7 @@ from aiohttp import web
 from utils import scanner
 # from utils import mapAppend
 # from settings import OK_STATUS
-from settings import DEFAULT_PORT, ALIVE_SYMBOL
+from settings import DEFAULT_PORT, ALIVE_SYMBOL, LOAD_ERROR
 import importlib.util
 import sys
 import json
@@ -39,7 +39,10 @@ async def funcRegister(request):
     base = request.rel_url.query['workingPath']
 
     absPath = os.path.join(base, file)
-    module = dynamicImport(absPath)
+    try:
+        module = dynamicImport(absPath)
+    except:
+        return web.Response(text = LOAD_ERROR)
     with open(os.path.join(base, file), 'r') as source:
         funcName, input, output = scanner(source.read())
         funcCache[funcName] = getattr(module,funcName)
@@ -82,6 +85,6 @@ app.add_routes([
     web.get('/b/{name}', handle)
 ])
 
-if __name__ == '__main__':
-    print(f"python_server on: {Fore.RED}http://localhost:{DEFAULT_PORT}")
-    web.run_app(app, port=DEFAULT_PORT, print=None)
+
+print(f"python_server on: {Fore.RED}http://localhost:{DEFAULT_PORT}")
+web.run_app(app, port=DEFAULT_PORT, print=None)
