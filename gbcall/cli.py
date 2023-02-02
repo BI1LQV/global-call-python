@@ -4,12 +4,12 @@ import os
 from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientConnectorError
 import asyncio
-from gbcall.settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
+from .settings import DEFAULT_PORT, DESCRIPTION, ALIVE_SYMBOL
 import urllib.parse
 from colorama import Fore, Style
 import subprocess
 import sys
-from gbcall.utils import printError
+from .utils import printError
 
 
 def prompt():

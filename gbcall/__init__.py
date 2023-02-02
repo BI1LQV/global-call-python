@@ -1,4 +1,4 @@
-from gbcall.types import *
+from .types import *
 def defineExpose(input, output):
     def decorator(func):
         def wrapper(*args, **kwargs):

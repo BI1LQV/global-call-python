@@ -3,8 +3,8 @@ from aiohttp import web
 from utils import scanner,returnJson
 # from utils import mapAppend
 # from settings import OK_STATUS
-from gbcall.settings import DEFAULT_PORT, ALIVE_SYMBOL
-from gbcall.typeConverter import convertParameters
+from .settings import DEFAULT_PORT, ALIVE_SYMBOL
+from .typeConverter import convertParameters
 import importlib.util
 import sys
 from colorama import Fore
