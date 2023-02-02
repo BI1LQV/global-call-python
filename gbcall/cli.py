@@ -59,6 +59,3 @@ def prompt():
 
 
     asyncio.run(main(True))
-
-
-prompt()
