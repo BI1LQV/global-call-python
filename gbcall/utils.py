@@ -3,6 +3,9 @@ from aiohttp import web
 import json
 from colorama import Fore, Style
 
+import importlib.util
+import sys
+
 def scanner(code):
     regex = re.compile("@defineExpose\((.+)\)\ndef (.+):", re.S)
     IOStr = re.search(regex, code).group(1)
@@ -35,3 +38,11 @@ def returnJson(data,error=None):
 
 def printError(txt):
     print(f"{Fore.RED}ERROR:{Style.RESET_ALL} {txt}")
+
+def dynamicImport(path):
+    spec = importlib.util.spec_from_file_location(
+        path, path)
+    foo = importlib.util.module_from_spec(spec)
+    sys.modules[path] = foo
+    spec.loader.exec_module(foo)
+    return foo
