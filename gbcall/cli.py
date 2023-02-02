@@ -9,6 +9,7 @@ import urllib.parse
 from colorama import Fore, Style
 import subprocess
 import sys
+from gbcall.utils import printError
 
 
 def prompt():
@@ -22,7 +23,7 @@ def prompt():
     args = parser.parse_args()
 
     if not args.filePath:
-        print("No file path provided")
+        printError("No file path provided")
         return
     files = args.filePath
 
@@ -46,7 +47,7 @@ def prompt():
                             ) as resp:
                                 funcName = await resp.json()
                                 if funcName['status'] == "ERR":
-                                    print(f"{Fore.RED}ERROR:{Style.RESET_ALL}{funcName['res']}")
+                                    printError(funcName['res'])
                                 else:
                                     print(f"{Fore.BLUE}{funcName['res']}{Style.RESET_ALL} registered on {Fore.RED}{targetServer}{Style.RESET_ALL}")
             except ClientConnectorError:

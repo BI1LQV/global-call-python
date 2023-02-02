@@ -1,6 +1,7 @@
 import re
 from aiohttp import web
 import json
+from colorama import Fore, Style
 
 def scanner(code):
     regex = re.compile("@defineExpose\((.+)\)\ndef (.+):", re.S)
@@ -31,3 +32,6 @@ def returnJson(data,error=None):
         content_type="application/json",
         headers={"Access-Control-Allow-Origin":"*"}
     )
+
+def printError(txt):
+    print(f"{Fore.RED}ERROR:{Style.RESET_ALL} {txt}")
