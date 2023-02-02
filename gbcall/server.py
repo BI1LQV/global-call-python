@@ -3,10 +3,9 @@ from aiohttp import web
 from utils import scanner,returnJson
 # from utils import mapAppend
 # from settings import OK_STATUS
-from settings import DEFAULT_PORT, ALIVE_SYMBOL
+from gbcall.settings import DEFAULT_PORT, ALIVE_SYMBOL
 import importlib.util
 import sys
-import json
 from colorama import Fore
 
 infoCache = {}

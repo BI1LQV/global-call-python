@@ -1,6 +1,6 @@
 from setuptools import setup
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 setup(
     name='global-call',  # package name
@@ -18,7 +18,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gbcall = src.cli:prompt'
+            'gbcall = gbcall.cli:prompt'
         ]
     }
 )
