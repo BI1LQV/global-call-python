@@ -10,7 +10,7 @@ from colorama import Fore, Style
 import subprocess
 import sys
 from .utils import printError
-
+from time import sleep
 
 def prompt():
     parser = argparse.ArgumentParser(
@@ -30,8 +30,6 @@ def prompt():
     targetServer = f'http://localhost:{DEFAULT_PORT}'
 
     async def main(reRun):
-        if not reRun:
-            return
         async with ClientSession() as session:
             try:
                 async with session.get(targetServer+'/isAlive') as resp:
@@ -57,7 +55,10 @@ def prompt():
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT)
                 if not reRun:
-                    asyncio.run(main(True))
+                    sleep(0.5) #TODO: 改成读到启动再重试
+                    await main(True)
+                else:
+                    printError("start server failed")
 
 
-    asyncio.run(main(True))
+    asyncio.run(main(False))
