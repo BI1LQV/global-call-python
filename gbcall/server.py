@@ -4,6 +4,7 @@ from utils import scanner,returnJson
 # from utils import mapAppend
 # from settings import OK_STATUS
 from gbcall.settings import DEFAULT_PORT, ALIVE_SYMBOL
+from gbcall.typeConverter import convertParameters
 import importlib.util
 import sys
 from colorama import Fore
@@ -54,7 +55,7 @@ async def callFunc(request):
     data=await request.json()
     funcName = request.match_info.get('funcName', "Anonymous")
     res=funcCache[funcName](*data["args"])
-    return returnJson(res)
+    return returnJson(convertParameters(infoCache[funcName]["output"],res))
 
 
 def getFuncInfo(request):
