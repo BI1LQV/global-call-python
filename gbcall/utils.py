@@ -1,6 +1,4 @@
 import re
-from aiohttp import web
-import json
 from colorama import Fore, Style
 
 import importlib.util
@@ -25,16 +23,6 @@ def mapAppend(m, key, val):
     else:
         m[key] = [val]
 
-def returnJson(data,error=None):
-    if error:
-        res={"res":error,"status":"ERR"}
-    else:
-        res={"res":data,"status":"OK"}
-    return web.Response(
-        text=json.dumps(res),
-        content_type="application/json",
-        headers={"Access-Control-Allow-Origin":"*"}
-    )
 
 def printError(txt):
     print(f"{Fore.RED}ERROR:{Style.RESET_ALL} {txt}")

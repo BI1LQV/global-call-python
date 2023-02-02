@@ -36,7 +36,7 @@ def prompt():
             try:
                 async with session.get(targetServer+'/isAlive') as resp:
                     if (resp.status == 200 and
-                            await resp.text() == ALIVE_SYMBOL["python"]):
+                            (await resp.json()).get("res") == ALIVE_SYMBOL["python"]):
                         for fileName in files:
                             params = urllib.parse.urlencode({
                                 "filePath": fileName,
@@ -50,6 +50,8 @@ def prompt():
                                     printError(funcName['res'])
                                 else:
                                     print(f"{Fore.BLUE}{funcName['res']}{Style.RESET_ALL} registered on {Fore.RED}{targetServer}{Style.RESET_ALL}")
+                    else:
+                        printError("target server is not working properly or is not gbcall server")
             except ClientConnectorError:
                 t=subprocess.Popen([sys.executable, os.path.split(os.path.realpath(__file__))[0]+'/server.py'],
                                     stdout=subprocess.PIPE,
