@@ -15,6 +15,7 @@ setup(
     license="MIT",
     install_requires=[
         "aiohttp",
+        "mpld3"
     ],
     entry_points={
         'console_scripts': [

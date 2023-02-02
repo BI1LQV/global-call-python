@@ -1,5 +1,4 @@
 import mpld3
-import re
 def __number(maybeNumber):
   return float(maybeNumber)
 
