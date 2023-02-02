@@ -15,21 +15,20 @@ def __null(maybeNull):
 def __plot(maybePlot):
   return mpld3.fig_to_html(maybePlot)
 
-def typeConvert(maybeType,val):
-  if re.compile(".*Number$").match(maybeType):
-    return __number(val)
-  elif re.compile(".*Text$").match(maybeType):
-    return __text(val)
-  elif re.compile(".*Boolean$").match(maybeType):
-    return __boolean(val)
-  elif re.compile(".*Null$").match(maybeType):
-    return __null(val)
-  elif re.compile(".*Plot$").match(maybeType):
-    return __plot(val)
-  elif re.compile(".*Complex$").match(maybeType):
-    return val
-  else:
-    raise Exception("unknown type")
+def __complex(val):
+  return val
+
+typeConverter={
+  "Number":__number,
+  "Text":__text,
+  "Boolean":__boolean,
+  "Null":__null,
+  "Plot":__plot,
+  "Complex":__complex
+}
 
 def convertParameters(types,parameters):
-  return list(map(lambda type,val:typeConvert(type,val),types,parameters))
+  try:
+    return list(map(lambda type,val:typeConverter[type](val),types,parameters))
+  except Exception:
+    raise Exception("unknown type")

@@ -1,5 +1,5 @@
 import os
-from .utils import scanner,dynamicImport
+from .utils import scanner,dynamicImport,typeNameConvert
 from .settings import ALIVE_SYMBOL
 from .typeConverter import convertParameters
 
@@ -23,7 +23,10 @@ async def funcRegister(request):
     with open(os.path.join(base, file), 'r') as source:
         funcName, input, output = scanner(source.read())
         funcCache[funcName] = getattr(module,funcName)
-        infoCache[funcName] = {"input": input, "output": output}
+        infoCache[funcName] = {
+            "input":list(map(typeNameConvert,input)),
+            "output": list(map(typeNameConvert,output))
+        }
     return funcName
 
 

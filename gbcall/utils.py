@@ -1,5 +1,6 @@
 import re
 from colorama import Fore, Style
+from . import types
 
 import importlib.util
 import sys
@@ -34,3 +35,12 @@ def dynamicImport(path):
     sys.modules[path] = foo
     spec.loader.exec_module(foo)
     return foo
+
+
+allTypes=list(filter(lambda name:not name.startswith("__"),dir(types)))
+
+def typeNameConvert(typeName):
+    for type in allTypes:
+        if re.compile(f".*{type}$").match(typeName):
+            return type
+    raise Exception("unknown type")
