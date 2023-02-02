@@ -1,6 +1,6 @@
 import os
 from aiohttp import web
-from utils import scanner,returnJson
+from .utils import scanner,returnJson
 # from utils import mapAppend
 # from settings import OK_STATUS
 from .settings import DEFAULT_PORT, ALIVE_SYMBOL
@@ -75,6 +75,9 @@ app.add_routes([
     web.get('/b/{name}', handle)
 ])
 
+def run():
+    print(f"python_server on: {Fore.RED}http://localhost:{DEFAULT_PORT}")
+    web.run_app(app, port=DEFAULT_PORT, print=None)
 
-print(f"python_server on: {Fore.RED}http://localhost:{DEFAULT_PORT}")
-web.run_app(app, port=DEFAULT_PORT, print=None)
+if __name__=="__main__":
+    run()

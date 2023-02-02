@@ -18,7 +18,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gbcall = gbcall.cli:prompt'
+            'gbcall = gbcall.cli:prompt',
+            'gbcall-server = gbcall.server:run',
         ]
     }
 )
