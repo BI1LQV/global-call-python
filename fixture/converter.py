@@ -1,5 +1,8 @@
-from gbcall import defineExpose,Number
-@defineExpose(input=[Number, Number, Number], output=[Number, Number, Number])
+from gbcall import defineExpose,types
+@defineExpose(
+  input=[types.Number, types.Number, types.Number],
+  output=[types.Number, types.Number, types.Number]
+)
 def rgb2hsv(r, g, b):
   r /= 255
   g /= 255
