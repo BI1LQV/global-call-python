@@ -28,6 +28,8 @@ typeConverter={
 }
 
 def convertParameters(types,parameters):
+  if len(types)==1 and not parameters is list:
+    parameters=[parameters]
   try:
     return list(map(lambda type,val:typeConverter[type](val),types,parameters))
   except Exception:

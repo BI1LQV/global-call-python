@@ -16,8 +16,8 @@ async def responseJsonWrapper(request,handler):
             headers={"Access-Control-Allow-Origin":"*"}
         )
     except Exception as e:
-        # if __name__!="__main__":
-        #     raise e
+        if __name__!="__main__":
+            raise e
         return web.json_response(
             {"res":str(e),"status":"ERR"},
             headers={"Access-Control-Allow-Origin":"*"}
