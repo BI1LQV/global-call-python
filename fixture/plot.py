@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 from gbcall import defineExpose,types
 @defineExpose(
-  input=[],
+  input=[types.Number],
   output=[types.Plot]
 )
-def plot():
+def plot(i):
   fig, ax = plt.subplots()
 
   fruits = ['apple', 'blueberry', 'cherry', 'orange']
