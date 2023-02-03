@@ -1,21 +1,36 @@
 import matplotlib.pyplot as plt
-from gbcall import defineExpose,types
+import numpy as np
+from gbcall import defineExpose, types
+
+
 @defineExpose(
-  input=[types.Number],
-  output=[types.Plot]
+    input=[types.Number, types.Number],
+    output=[types.Plot]
 )
-def plot(i):
-  fig, ax = plt.subplots()
+def plot(man, women):
+    N = 5
+    menMeans = (man, 35, 30, 35, -27)
+    womenMeans = (women, 32, 34, 20, -25)
+    menStd = (2, 3, 4, 1, 2)
+    womenStd = (3, 5, 2, 3, 3)
+    ind = np.arange(N)    # the x locations for the groups
+    width = 0.35
 
-  fruits = ['apple', 'blueberry', 'cherry', 'orange']
-  counts = [40, 100, 30, 55]
-  bar_labels = ['red', 'blue', '_red', 'orange']
-  bar_colors = ['tab:red', 'tab:blue', 'tab:red', 'tab:orange']
+    fig, ax = plt.subplots()
 
-  ax.bar(fruits, counts, label=bar_labels, color=bar_colors)
+    p1 = ax.bar(ind, menMeans, width, yerr=menStd, label='Men')
+    p2 = ax.bar(ind, womenMeans, width,
+                bottom=menMeans, yerr=womenStd, label='Women')
 
-  ax.set_ylabel('fruit supply')
-  ax.set_title('Fruit supply by kind and color')
-  ax.legend(title='Fruit color')
+    ax.axhline(0, color='grey', linewidth=0.8)
+    ax.set_ylabel('Scores')
+    ax.set_title('Scores by group and gender')
+    ax.set_xticks(ind, labels=['G1', 'G2', 'G3', 'G4', 'G5'])
+    ax.legend()
 
-  return fig
+    # Label with label_type 'center' instead of the default 'edge'
+    ax.bar_label(p1, label_type='center')
+    ax.bar_label(p2, label_type='center')
+    ax.bar_label(p2)
+
+    return fig
