@@ -12,7 +12,7 @@ def __null(maybeNull):
   return None
 
 def __plot(maybePlot):
-  return mpld3.save_json(maybePlot)
+  return  mpld3.fig_to_dict(maybePlot)
 
 def __complex(val):
   return val
