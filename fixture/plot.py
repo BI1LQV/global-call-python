@@ -10,9 +10,9 @@ def plot(apple, blueberry):
 
     fig, ax = plt.subplots()
 
-    fruits = ['apple', 'blueberry', 'cherry', 'orange']
-    counts = [apple, blueberry, 30, 55]
-    bar_colors = ['tab:red', 'tab:blue', 'tab:red', 'tab:orange']
+    fruits = ['apple', 'blueberry', 'orange']
+    counts = [apple, blueberry,  55]
+    bar_colors = ['tab:red', 'tab:blue', 'tab:orange']
 
     ax.bar(fruits, counts, color=bar_colors)
 
