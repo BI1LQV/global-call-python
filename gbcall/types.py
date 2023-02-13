@@ -1,7 +1,7 @@
 #define types
-Number=None
-Text=None
-Boolean=None
-Null=None
-Plot=None
-Complex=None
+Number="Number"
+Text="Text"
+Boolean="Boolean"
+Null="Null"
+Plot="Plot"
+Complex="Complex"
