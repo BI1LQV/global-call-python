@@ -1,5 +1,6 @@
 from . import types
 import re
+import io, base64
 
 def __number(maybeNumber):
   return float(maybeNumber)
@@ -20,13 +21,26 @@ def __plot(maybePlot):
 def __complex(val):
   return val
 
+def __img(maybePlot):
+  import matplotlib.pyplot as plt
+  buf = io.BytesIO()
+  if hasattr(maybePlot,"__dpi"):
+    maybePlot.savefig(buf, format='png',dpi=maybePlot.__dpi)
+  else:
+    maybePlot.savefig(buf, format='png')
+  plt.close(maybePlot)
+  buf.seek(0)
+  img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
+  return img_str
+
 typeConverter={
   "Number":__number,
   "Text":__text,
   "Boolean":__boolean,
   "Null":__null,
   "Plot":__plot,
-  "Complex":__complex
+  "Complex":__complex,
+  "Img":__img
 }
 
 def convertParameters(types,parameters):
