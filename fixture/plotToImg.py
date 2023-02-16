@@ -19,6 +19,6 @@ def plot(apple, blueberry):
     ax.set_ylabel('fruit supply')
     ax.set_title('Fruit supply by kind and color')
 
-    fig.__dpi=20
+    fig.__dpi=100
 
     return fig
