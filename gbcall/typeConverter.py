@@ -33,6 +33,12 @@ def __img(maybePlot):
   img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
   return img_str
 
+def __file(maybeFile):
+  maybeFile.seek(0)
+  base64_data = base64.b64encode(maybeFile.read()).decode('UTF-8')
+  print(base64_data)
+  return base64_data
+
 typeConverter={
   "Number":__number,
   "Text":__text,
@@ -40,7 +46,8 @@ typeConverter={
   "Null":__null,
   "Plot":__plot,
   "Complex":__complex,
-  "Img":__img
+  "Img":__img,
+  "File":__file
 }
 
 def convertParameters(types,parameters):

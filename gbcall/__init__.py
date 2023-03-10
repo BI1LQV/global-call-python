@@ -1,5 +1,5 @@
 from .typeConverter import convertParameters,typeNameConvert
-from json import dumps
+from tempfile import NamedTemporaryFile
 
 def defineExpose(input, output):
     def decorator(func):
@@ -16,3 +16,7 @@ def defineExpose(input, output):
             return func(*args)
         return wrapper
     return decorator
+
+def VirtualFile():
+    file=NamedTemporaryFile(prefix=".virtual_file_", suffix=".tmp")
+    return file
