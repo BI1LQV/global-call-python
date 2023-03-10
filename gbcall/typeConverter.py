@@ -36,7 +36,11 @@ def __img(maybePlot):
 def __file(maybeFile):
   maybeFile.seek(0)
   base64_data = base64.b64encode(maybeFile.read()).decode('UTF-8')
-  print(base64_data)
+  if re.compile(r".*\.png$").match(maybeFile.name):
+    base64_data = 'data:image/png;base64,' + base64_data
+  elif re.compile(r".*\.(jpg|jpeg)$").match(maybeFile.name):
+    base64_data = 'data:image/jpg;base64,' + base64_data
+
   return base64_data
 
 typeConverter={
