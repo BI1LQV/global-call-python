@@ -17,6 +17,6 @@ def defineExpose(input, output):
         return wrapper
     return decorator
 
-def VirtualFile():
-    file=NamedTemporaryFile(prefix=".virtual_file_", suffix=".tmp")
+def VirtualFile(suffix=".tmp"):
+    file=NamedTemporaryFile(prefix=".virtual_file_", suffix=suffix)
     return file
