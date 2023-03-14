@@ -1,7 +1,8 @@
 import os
+
+from gbcall import callWithTypeCheck
 from .utils import dynamicImport
 from .settings import ALIVE_SYMBOL
-from .typeConverter import convertParameters,typeNameConvert
 from .scanner import scanner
 
 infoCache = {}
@@ -34,8 +35,10 @@ async def funcRegister(request):
 async def callFunc(request):
     data=await request.json()
     funcName = request.match_info.get('funcName', "Anonymous")
-    res=funcCache[funcName](*convertParameters(infoCache[funcName]["input"],data["args"]))
-    return convertParameters(infoCache[funcName]["output"],res)
+    return callWithTypeCheck(funcCache[funcName],
+                             infoCache[funcName]["input"],
+                             infoCache[funcName]["output"],
+                             data["args"])
 
 
 def getFuncInfo(request):
