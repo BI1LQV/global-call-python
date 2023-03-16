@@ -41,7 +41,7 @@ async def callFunc(request):
                              data["args"])
 
 
-def getFuncInfo(request):
+async def getFuncInfo(request):
     name = request.match_info.get('funcName')
     try:
         return infoCache[name]

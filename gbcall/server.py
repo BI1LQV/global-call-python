@@ -8,7 +8,6 @@ else:
 
 from colorama import Fore,Style
 
-@web.middleware
 async def responseJsonWrapper(request,handler):
     try:
         return web.json_response(

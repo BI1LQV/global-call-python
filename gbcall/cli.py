@@ -51,9 +51,14 @@ def prompt():
                     else:
                         printError("target server is not working properly or is not gbcall server")
             except ClientConnectorError:
-                t=subprocess.Popen([sys.executable, os.path.split(os.path.realpath(__file__))[0]+'/server.py'],
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT)
+                if sys.platform.startswith('win'):
+                    pass
+                else:
+                    subprocess.Popen([
+                        "nohup",
+                        sys.executable,
+                        os.path.split(os.path.realpath(__file__))[0]+'/server.py',"&"
+                        ],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
                 if not reRun:
                     sleep(0.5) #TODO: 改成读到启动再重试
                     await main(True)
