@@ -13,7 +13,7 @@ setup(
     author_email="bi1lqy.y@gmail.com",
     license="MIT",
     install_requires=[
-        "aiohttp",
+        "aiohttp >=3.0, <4.0",
         "mpld3",
         "colorama"
     ],
