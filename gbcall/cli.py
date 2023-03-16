@@ -52,7 +52,9 @@ def prompt():
                         printError("target server is not working properly or is not gbcall server")
             except ClientConnectorError:
                 if sys.platform.startswith('win'):
-                    pass
+                    subprocess.Popen([sys.executable, os.path.split(os.path.realpath(__file__))[0]+'/server.py'],
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT)
                 else:
                     subprocess.Popen([
                         "nohup",
