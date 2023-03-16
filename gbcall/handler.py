@@ -1,6 +1,6 @@
 import os
 
-from gbcall import callWithTypeCheck
+from .callWithTypeCheck import callWithTypeCheck
 from .utils import dynamicImport
 from .settings import ALIVE_SYMBOL
 from .scanner import scanner
