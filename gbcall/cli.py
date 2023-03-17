@@ -68,4 +68,10 @@ def prompt():
                     printError("start server failed")
 
 
-    asyncio.run(main(False))
+    # 如果asyncio有run方法
+    if hasattr(asyncio, 'run'):
+        asyncio.run(main(False))
+    #如果没有
+    else:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main(False))
