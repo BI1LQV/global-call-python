@@ -415,7 +415,7 @@ def gFuncCalc(
     # choose = console.input("是否可视化（y/n）：")
 
     fig = plt.figure()
-    ax = Axes3D(fig, auto_add_to_figure=False)
+    ax = Axes3D(fig)
     fig.add_axes(ax)
     for i in range(frac_num):
         Y = np.arange(0, int(L[i] / 2) + 1, 1)
